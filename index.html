@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Front Camera Photo</title>
+</head>
+<body>
+  <h2>Take a Photo (Front Camera)</h2>
+  <video id="video" autoplay playsinline width="300"></video><br>
+  <button id="snap">📸 Capture</button>
+  <canvas id="canvas" width="300" height="300"></canvas><br>
+  <a id="download" download="photo.png">⬇️ Download Photo</a>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    const snapBtn = document.getElementById('snap');
+    const download = document.getElementById('download');
+
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+      .then(stream => {
+        video.srcObject = stream;
+      });
+
+    snapBtn.addEventListener("click", () => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      download.href = canvas.toDataURL("image/png");
+    });
+  </script>
+</body>
+</html>
